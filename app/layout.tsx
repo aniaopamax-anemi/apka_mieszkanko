@@ -27,6 +27,13 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      {/* DODAJEMY TĘ SEKCJĘ HEAD PONIŻEJ */}
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#9333ea" />
+        <link rel="apple-touch-icon" href="/favicon.ico" />
+      </head>
+      
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
