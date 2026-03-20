@@ -52,22 +52,22 @@ export default function SummaryView() {
     <div className="flex flex-col gap-8">
       <div>
         <h2 className="text-2xl font-bold mb-4">Podsumowanie Miesięcy</h2>
-        {Object.entries(summaryByMonth).map(([month, data]) => (
+        {Object.entries(summaryByMonth as any).map(([month, data]: [string, any]) => (
           <div key={month} className="mb-6 border rounded-xl overflow-hidden">
             <h3 className="bg-purple-100 text-purple-800 font-bold p-3">{month}</h3>
             <div className="p-4 bg-white grid grid-cols-2 gap-2">
-              {Object.entries(data.totals).map(([cat, suma]: any) => (
+              {Object.entries((data as any).totals || {}).map(([cat, suma]: any) => ( 
                 <div key={cat} className="flex justify-between border-b border-dashed border-gray-200 pb-1">
                   <span className="capitalize">{cat}:</span>
                   <span className="font-bold">{suma.toFixed(2)} zł</span>
                 </div>
               ))}
             </div>
-            {data.inneItems.length > 0 && (
-              <div className="p-3 bg-gray-50 text-xs text-gray-500">
-                <strong>Szczegóły "inne":</strong> {data.inneItems.join(', ')}
-              </div>
-            )}
+            {(data as any).inneItems && (data as any).inneItems.length > 0 && (
+  <div className="p-3 bg-gray-50 text-xs text-gray-500">
+    <strong>Szczegóły "inne":</strong> {(data as any).inneItems.join(', ')}
+  </div>
+)}
           </div>
         ))}
       </div>
