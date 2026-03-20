@@ -1,5 +1,3 @@
-// PersonView.tsx
-
 "use client";
 
 import React, { useEffect, useState } from 'react';
@@ -8,7 +6,6 @@ import { supabase } from './supabaseClient';
 export default function PersonView({ personName }: { personName: string }) {
   const [expenses, setExpenses] = useState<any[]>([]);
 
-  // useEffect to funkcja, która "sama z siebie" pobiera dane, gdy tylko włączysz tę zakładkę
   useEffect(() => {
     fetchExpenses();
   }, [personName]);
@@ -18,20 +15,25 @@ export default function PersonView({ personName }: { personName: string }) {
     if (data) setExpenses(data);
   };
 
-  // Zaznaczanie, że rachunek został zapłacony
   const markAsPaid = async (id: string) => {
     await supabase.from('expenses').update({ is_paid: true }).eq('id', id);
-    fetchExpenses(); // Odświeżamy listę po zmianie
+    fetchExpenses();
   };
 
-  // Dzielimy wydatki na dwie kupki: zapłacone i niezapłacone
+  // NOWA FUNKCJA: Usuwanie wydatku z bazy danych
+  const deleteExpense = async (id: string) => {
+    // Okienko z upewnieniem się, czy to nie było przypadkowe kliknięcie
+    const confirmDelete = window.confirm("Czy na pewno chcesz usunąć ten wydatek?");
+    if (confirmDelete) {
+      await supabase.from('expenses').delete().eq('id', id);
+      fetchExpenses(); // Odświeżamy listę, żeby wydatek od razu zniknął z ekranu
+    }
+  };
+
   const unpaid = expenses.filter(e => !e.is_paid);
   const paid = expenses.filter(e => e.is_paid);
-
-  // Zliczamy całkowitą kwotę do zapłaty
   const totalDue = unpaid.reduce((suma, wpis) => suma + wpis.amount, 0);
 
-  // Funkcja pomocnicza, która grupuje opłacone wydatki w miesiące
   const groupedPaid = paid.reduce((grupy, wpis) => {
     grupy[wpis.month] = grupy[wpis.month] || [];
     grupy[wpis.month].push(wpis);
@@ -49,14 +51,27 @@ export default function PersonView({ personName }: { personName: string }) {
         {unpaid.length === 0 ? <p className="text-gray-500">Wszystko opłacone! 🎉</p> : null}
         
         {unpaid.map(exp => (
-          <label key={exp.id} className="flex items-center gap-3 p-3 bg-red-50 rounded-lg cursor-pointer hover:bg-red-100 transition">
-            {/* Kliknięcie checkboxa wysyła informację do bazy danych */}
-            <input type="checkbox" className="w-5 h-5" onChange={() => markAsPaid(exp.id)} />
+          // Zamieniłem <label> na <div>, żeby kliknięcie w ikonkę usuwania nie zaznaczało checkboxa
+          <div key={exp.id} className="flex items-center gap-3 p-3 bg-red-50 rounded-lg hover:bg-red-100 transition">
+            <input 
+              type="checkbox" 
+              className="w-5 h-5 cursor-pointer" 
+              onChange={() => markAsPaid(exp.id)} 
+            />
             <span className="flex-1 font-medium">
               {exp.category === 'inne' ? exp.description : exp.category}, {exp.month}
             </span>
             <span className="font-bold text-lg">{exp.amount.toFixed(2)} zł</span>
-          </label>
+            
+            {/* PRZYCISK USUWANIA */}
+            <button 
+              onClick={() => deleteExpense(exp.id)} 
+              className="bg-white text-red-500 border border-red-200 hover:bg-red-500 hover:text-white rounded-full w-8 h-8 flex items-center justify-center transition-colors shadow-sm ml-2"
+              title="Usuń ten wydatek"
+            >
+              ❌
+            </button>
+          </div>
         ))}
       </div>
 
@@ -65,10 +80,20 @@ export default function PersonView({ personName }: { personName: string }) {
         <div key={miesiace} className="mb-4">
           <h4 className="font-bold text-gray-700 bg-gray-200 px-3 py-1 rounded">{miesiace}</h4>
           <ul className="pl-4 mt-2">
-            {wpisy.map(exp => (
-              <li key={exp.id} className="text-gray-600 flex justify-between border-b border-gray-100 py-1">
-                <span>{exp.category === 'inne' ? exp.description : exp.category}</span>
-                <span>{exp.amount.toFixed(2)} zł</span>
+            {(wpisy as any[]).map((exp: any) => (
+              <li key={exp.id} className="text-gray-600 flex items-center justify-between border-b border-gray-100 py-2">
+                <div className="flex justify-between flex-1 pr-4">
+                  <span>{exp.category === 'inne' ? exp.description : exp.category}</span>
+                  <span>{exp.amount.toFixed(2)} zł</span>
+                </div>
+                
+                {/* PRZYCISK USUWANIA W HISTORII (w razie błędu) */}
+                <button 
+                  onClick={() => deleteExpense(exp.id)} 
+                  className="text-red-400 hover:text-red-600 text-xs px-2 py-1 bg-red-50 rounded"
+                >
+                  Usuń
+                </button>
               </li>
             ))}
           </ul>
