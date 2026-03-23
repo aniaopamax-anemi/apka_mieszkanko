@@ -2,10 +2,10 @@
 
 import React from 'react';
 // 1. Ściągamy naszą bąbelkową czcionkę z Google bezpośrednio do tego pliku
-import { Rubik_Puddles } from 'next/font/google';
+import { Rubik_Dirt } from 'next/font/google';
 
 // 2. Konfigurujemy ją (wybieramy polskie znaki 'latin-ext')
-const rubik = Rubik_Puddles({ 
+const rubik = Rubik_Dirt({ 
   weight: '400', 
   subsets: ['latin', 'latin-ext'] 
 });
