@@ -14,21 +14,27 @@ export default function AddExpenseView() {
   const [month, setMonth] = useState(months[new Date().getMonth()]);
   const [isSaving, setIsSaving] = useState(false);
 
-  // --- NOWA FUNKCJA: Dzwonimy na nasze zaplecze ---
+  // --- Zaktualizowana funkcja z RADAREM BŁĘDÓW ---
   const sendAutomaticNotification = async () => {
     const message = person === 'Wszyscy' 
       ? `Nowy rachunek: ${category} (${amount} zł). Zrzucamy się! 💸`
       : `Nowy rachunek: ${category} (${amount} zł) płaci ${person}.`;
 
     try {
-      // Pukamy do naszego nowego pliku route.ts
-      await fetch("/api/notify", {
+      const res = await fetch("/api/notify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message })
       });
+
+      const data = await res.json();
+      
+      // Jeśli zaplecze zgłosi problem, wyświetlamy go na ekranie!
+      if (!res.ok) {
+        alert("BŁĄD ONESIGNAL: " + data.error);
+      }
     } catch (error) {
-      console.log("Nie udało się połączyć z zapleczem.");
+      alert("Nie udało się w ogóle połączyć z zapleczem.");
     }
   };
 
@@ -64,12 +70,12 @@ export default function AddExpenseView() {
 
     setIsSaving(false);
     if (error) {
-      alert('Coś poszło nie tak!');
+      alert('Coś poszło nie tak z bazą danych!');
     } else {
-      // Wywołujemy powiadomienie!
+      // Wywołujemy powiadomienie
       await sendAutomaticNotification();
       
-      alert('Dodano pomyślnie i wysłano powiadomienie!');
+      alert('Rachunek dodany!');
       setAmount('');
       setDescription('');
     }
