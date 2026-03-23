@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
+/* 1. TRYB JASNY (Kiedy w telefonie masz wyłączony tryb nocny) */
 :root {
-  --background: #34042a;
-  --foreground: #171717;
+  --background: #ffffff; /* Czyste białe tło */
+  --foreground: #000000; /* Czysty czarny tekst */
 }
 
 @theme inline {
@@ -12,10 +13,11 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* 2. TRYB CIEMNY (Czujnik wykrywający ustawienia telefonu) */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #34042a;
-    --foreground: #ededed;
+    --background: #000000; /* Czyste czarne tło */
+    --foreground: #ffffff; /* Czysty biały tekst */
   }
 }
 
