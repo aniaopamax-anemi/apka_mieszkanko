@@ -129,5 +129,6 @@ export default function AddExpenseView() {
         {isSaving ? 'Zapisywanie...' : 'Zapisz rachunek'}
       </button>
     </div>
+    //
   );
 }
