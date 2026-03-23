@@ -97,7 +97,7 @@ export default function AddExpenseView() {
       <button 
         onClick={handleSave} 
         disabled={isSaving}
-        className="mt-4 bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white font-bold py-3 rounded-lg transition-colors"
+        className="mt-4 bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-pink-400 text-white font-bold py-3 rounded-lg transition-colors"
       >
         {isSaving ? 'Zapisywanie...' : 'Zapisz rachunek'}
       </button>
