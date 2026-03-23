@@ -7,26 +7,19 @@ import PersonView from './PersonView';
 import SummaryView from './SummaryView';
 import { Tytul, Komunikat, Zwykly, Naglowek } from './style';
 
-
 export default function App() {
-  // useState to nasza pamięć. Aplikacja pamięta tutaj, która zakładka jest aktualnie włączona.
-  // Na start ustawiamy widok "Dodaj".
   const [currentView, setCurrentView] = useState('Dodaj');
-
-  // To są wszystkie osoby w mieszkaniu
   const roommates = ['Ania O.', 'Ania P.', 'Ina'];
 
-  // Ta funkcja decyduje, co ma się wyświetlić na ekranie poniżej menu
   const renderView = () => {
     if (currentView === 'Dodaj') return <AddExpenseView />;
     if (currentView === 'Podsumowanie') return <SummaryView />;
-    // Jeśli to nie "Dodaj" i nie "Podsumowanie", to znaczy że wybrano konkretną osobę
     if (roommates.includes(currentView)) return <PersonView personName={currentView} />;
   };
 
   return (
-    // Główny kontener aplikacji (szare tło, ładna czcionka)
-    //<div className="min-h-screen bg-gray-100 text-gray-800 font-sans p-4">
+    // Dodałem: dark:bg-black (w nocy czarne tło) i dark:text-gray-100 (w nocy jasny tekst)
+    <div className="min-h-screen bg-gray-100 dark:bg-black text-gray-800 dark:text-gray-100 font-sans p-4 transition-colors duration-300">
       <div className="max-w-3xl mx-auto">
         {Tytul("Mieszkanko")}
         
@@ -35,11 +28,12 @@ export default function App() {
           {['Ania O.', 'Ania P.', 'Ina', 'Dodaj', 'Podsumowanie'].map((tab) => (
             <button
               key={tab}
-              onClick={() => setCurrentView(tab)} // Po kliknięciu zmieniamy widok
+              onClick={() => setCurrentView(tab)}
               className={`px-4 py-2 rounded-full font-semibold transition-colors ${
                 currentView === tab 
-                  ? 'bg-purple-600 text-white shadow-md' // Zaznaczony przycisk
-                  : 'bg-white text-gray-600 hover:bg-purple-100' // Zwykły przycisk
+                  ? 'bg-purple-600 text-white shadow-md' 
+                  // Dodałem nocne kolory dla niezaznaczonych przycisków:
+                  : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-purple-100 dark:hover:bg-purple-900'
               }`}
             >
               {tab}
@@ -47,8 +41,8 @@ export default function App() {
           ))}
         </div>
 
-        {/* Miejsce, gdzie wyświetla się wybrany przez nas widok */}
-        <div className="bg-white rounded-2xl shadow-lg p-6">
+        {/* Dodałem: dark:bg-gray-900 (w nocy główne okno będzie elegancko ciemnoszare) */}
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-6 transition-colors duration-300">
           {renderView()}
         </div>
       </div>
