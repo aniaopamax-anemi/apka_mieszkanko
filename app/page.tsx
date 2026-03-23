@@ -21,7 +21,7 @@ export default function App() {
     // Dodałem: dark:bg-black (w nocy czarne tło) i dark:text-gray-100 (w nocy jasny tekst)
     <div className="min-h-screen bg-gray-100 dark:bg-black text-gray-800 dark:text-gray-100 font-sans p-4 transition-colors duration-300">
       <div className="max-w-3xl mx-auto">
-        {Tytul("Mieszkanko")}
+        {Tytul("MIESZKANKO")}
         
         {/* Pasek nawigacji (Menu) */}
         <div className="flex flex-wrap gap-2 justify-center mb-8">
@@ -48,4 +48,5 @@ export default function App() {
       </div>
     </div>
   );
-}
+} 
+///
