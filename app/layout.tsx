@@ -29,10 +29,29 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="pl"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-       <body className="min-h-full flex flex-col">{children}</body>
+      <head>
+        {/* SKRYPT ONESIGNAL (Nasz listonosz) */}
+        <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.OneSignalDeferred = window.OneSignalDeferred || [];
+              OneSignalDeferred.push(async function(OneSignal) {
+                await OneSignal.init({
+                  appId: "664ef654-dd81-446a-8e5c-f29f805ebbb7",
+                  notifyButton: {
+                    enable: true,
+                  },
+                });
+              });
+            `,
+          }}
+        />
+      </head>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }

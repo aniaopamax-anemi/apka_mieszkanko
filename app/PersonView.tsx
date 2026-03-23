@@ -46,7 +46,7 @@ export default function PersonView({ personName }: { personName: string }) {
 
       <h3 className="text-xl font-bold mb-4 dark:text-gray-100 transition-colors">Do zapłacenia:</h3>
       <div className="flex flex-col gap-2 mb-8">
-        {unpaid.length === 0 ? <p className="text-gray-500 dark:text-gray-400 transition-colors">Wszystko opłacone! 🎉</p> : null}
+        {unpaid.length === 0 ? <p className="text-gray-500 dark:text-gray-400 transition-colors">Wszystko opłacone!</p> : null}
         
         {unpaid.map(exp => (
           <div key={exp.id} className="flex items-center gap-3 p-3 bg-pink-50 dark:bg-pink-900/30 rounded-lg hover:bg-pink-100 dark:hover:bg-pink-900/50 transition-colors">
