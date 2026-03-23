@@ -40,7 +40,7 @@ export default function PersonView({ personName }: { personName: string }) {
 
   return (
     <div>
-      <h2 className="text-3xl font-black text-center text-red-500 dark:text-red-400 mb-8 border-b-2 border-red-100 dark:border-red-900 pb-4 transition-colors">
+      <h2 className="text-3xl font-black text-center text-pink-500 dark:text-pink-400 mb-8 border-b-2 border-pink-100 dark:border-pink-900 pb-4 transition-colors">
         Razem do zapłaty: {totalDue.toFixed(2)} zł
       </h2>
 
@@ -49,7 +49,7 @@ export default function PersonView({ personName }: { personName: string }) {
         {unpaid.length === 0 ? <p className="text-gray-500 dark:text-gray-400 transition-colors">Wszystko opłacone! 🎉</p> : null}
         
         {unpaid.map(exp => (
-          <div key={exp.id} className="flex items-center gap-3 p-3 bg-red-50 dark:bg-red-900/30 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors">
+          <div key={exp.id} className="flex items-center gap-3 p-3 bg-pink-50 dark:bg-pink-900/30 rounded-lg hover:bg-pink-100 dark:hover:bg-pink-900/50 transition-colors">
             <input 
               type="checkbox" 
               className="w-5 h-5 cursor-pointer" 
@@ -62,7 +62,7 @@ export default function PersonView({ personName }: { personName: string }) {
             
             <button 
               onClick={() => deleteExpense(exp.id)} 
-              className="bg-white dark:bg-gray-800 text-red-500 dark:text-red-400 border border-red-200 dark:border-red-800 hover:bg-red-500 dark:hover:bg-red-500 hover:text-white dark:hover:text-white rounded-full w-8 h-8 flex items-center justify-center transition-colors shadow-sm ml-2"
+              className="bg-white dark:bg-gray-800 text-pink-500 dark:text-pink-400 border border-pink-200 dark:border-pink-800 hover:bg-pink-500 dark:hover:bg-pink-500 hover:text-white dark:hover:text-white rounded-full w-8 h-8 flex items-center justify-center transition-colors shadow-sm ml-2"
               title="Usuń ten wydatek"
             >
               ❌
@@ -85,7 +85,7 @@ export default function PersonView({ personName }: { personName: string }) {
                 
                 <button 
                   onClick={() => deleteExpense(exp.id)} 
-                  className="text-red-400 dark:text-red-300 hover:text-red-600 dark:hover:text-red-100 text-xs px-2 py-1 bg-red-50 dark:bg-red-900/40 rounded transition-colors"
+                  className="text-pink-400 dark:text-pink-300 hover:text-pink-600 dark:hover:text-pink-100 text-xs px-2 py-1 bg-pink-50 dark:bg-pink-900/40 rounded transition-colors"
                 >
                   Usuń
                 </button>
