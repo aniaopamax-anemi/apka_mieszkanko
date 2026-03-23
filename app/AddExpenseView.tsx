@@ -14,6 +14,35 @@ export default function AddExpenseView() {
   const [month, setMonth] = useState(months[new Date().getMonth()]);
   const [isSaving, setIsSaving] = useState(false);
 
+  // --- FUNKCJA WYSYŁAJĄCA POWIADOMIENIE ---
+  const sendAutomaticNotification = async () => {
+    // Twoje prawdziwe klucze z OneSignal:
+    const appId = "664ef654-dd81-446a-8e5c-f29f805ebbb7"; 
+    const apiKey = "os_v2_app_mzhpmvg5qfcgvds46kpyaxv3w6kdjdy5mbresvuodh6o2ggbjeqbh3kcayyfthr5wblxnyirbifpi6kc2gp3f3v457mrd3fxqecvbby"; 
+
+    const message = person === 'Wszyscy' 
+      ? `Nowy rachunek: ${category} (${amount} zł). Zrzucamy się! 💸`
+      : `Nowy rachunek: ${category} (${amount} zł) płaci ${person}.`;
+
+    try {
+      await fetch("https://onesignal.com/api/v1/notifications", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Basic ${apiKey}`
+        },
+        body: JSON.stringify({
+          app_id: appId,
+          included_segments: ["All"], 
+          headings: { en: "Mieszkanko 🏠" },
+          contents: { en: message }
+        })
+      });
+    } catch (error) {
+      console.log("Nie udało się wysłać powiadomienia.");
+    }
+  };
+
   const handleSave = async () => {
     if (!amount) return alert('Podaj kwotę!');
     setIsSaving(true);
@@ -48,7 +77,10 @@ export default function AddExpenseView() {
     if (error) {
       alert('Coś poszło nie tak!');
     } else {
-      alert('Dodano pomyślnie!');
+      // Wywołujemy naszą funkcję od powiadomień po udanym zapisie!
+      await sendAutomaticNotification();
+      
+      alert('Dodano pomyślnie i wysłano powiadomienie!');
       setAmount('');
       setDescription('');
     }
