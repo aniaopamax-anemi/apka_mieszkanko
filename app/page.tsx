@@ -26,7 +26,7 @@ export default function App() {
 
   return (
     // Główny kontener aplikacji (szare tło, ładna czcionka)
-    <div className="min-h-screen bg-gray-100 text-gray-800 font-sans p-4">
+    //<div className="min-h-screen bg-gray-100 text-gray-800 font-sans p-4">
       <div className="max-w-3xl mx-auto">
         {Tytul("Mieszkanko")}
         
