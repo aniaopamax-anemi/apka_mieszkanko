@@ -1,4 +1,3 @@
-// AddExpenseView.tsx
 "use client";
 
 import React, { useState } from 'react';
@@ -8,15 +7,13 @@ const categories = ['czynsz', 'woda', 'prąd', 'gaz', 'internet', 'inne'];
 const months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
 
 export default function AddExpenseView() {
-  // Stan (pamięć) dla poszczególnych pól formularza
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState(categories[0]);
   const [description, setDescription] = useState('');
   const [person, setPerson] = useState('Wszyscy');
-  const [month, setMonth] = useState(months[new Date().getMonth()]); // Domyślnie aktualny miesiąc
+  const [month, setMonth] = useState(months[new Date().getMonth()]);
   const [isSaving, setIsSaving] = useState(false);
 
-  // Funkcja uruchamiana po kliknięciu "Zapisz"
   const handleSave = async () => {
     if (!amount) return alert('Podaj kwotę!');
     setIsSaving(true);
@@ -24,10 +21,8 @@ export default function AddExpenseView() {
     const numericAmount = parseFloat(amount);
     let recordsToInsert = [];
 
-    // LOGIKA: Podział rachunku na wszystkich lub przypisanie jednej osobie
     if (person === 'Wszyscy') {
       const splitAmount = numericAmount / 3;
-      // Tworzymy 3 osobne wpisy, po jednym dla każdej z Was
       recordsToInsert = ['Ania O.', 'Ania P.', 'Ina'].map((p) => ({
         amount: splitAmount,
         category,
@@ -37,7 +32,6 @@ export default function AddExpenseView() {
         is_paid: false,
       }));
     } else {
-      // Wpis tylko dla jednej, konkretnej osoby
       recordsToInsert = [{
         amount: numericAmount,
         category,
@@ -48,7 +42,6 @@ export default function AddExpenseView() {
       }];
     }
 
-    // Wysyłamy nasze wpisy do bazy danych (Supabase)
     const { error } = await supabase.from('expenses').insert(recordsToInsert);
 
     setIsSaving(false);
@@ -56,38 +49,37 @@ export default function AddExpenseView() {
       alert('Coś poszło nie tak!');
     } else {
       alert('Dodano pomyślnie!');
-      setAmount(''); // Czyścimy pole kwoty po dodaniu
+      setAmount('');
       setDescription('');
     }
   };
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-2xl font-bold border-b pb-2">Dodaj nowy rachunek</h2>
+      <h2 className="text-2xl font-bold border-b border-gray-200 dark:border-gray-700 pb-2 dark:text-gray-100 transition-colors">Dodaj nowy rachunek</h2>
       
       <label className="flex flex-col">
-        <span className="text-sm text-gray-500 mb-1">Kwota (zł)</span>
-        <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} className="border rounded p-2" placeholder="np. 150.50" />
+        <span className="text-sm text-gray-500 dark:text-gray-400 mb-1 transition-colors">Kwota (zł)</span>
+        <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded p-2 transition-colors focus:ring-2 focus:ring-purple-500 outline-none" placeholder="np. 150.50" />
       </label>
 
       <label className="flex flex-col">
-        <span className="text-sm text-gray-500 mb-1">Kategoria</span>
-        <select value={category} onChange={(e) => setCategory(e.target.value)} className="border rounded p-2">
+        <span className="text-sm text-gray-500 dark:text-gray-400 mb-1 transition-colors">Kategoria</span>
+        <select value={category} onChange={(e) => setCategory(e.target.value)} className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded p-2 transition-colors focus:ring-2 focus:ring-purple-500 outline-none">
           {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
         </select>
       </label>
 
-      {/* Jeśli wybierzesz 'inne', pokazujemy dodatkowe pole na opis */}
       {category === 'inne' && (
         <label className="flex flex-col">
-          <span className="text-sm text-gray-500 mb-1">Co to dokładnie jest?</span>
-          <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} className="border rounded p-2" placeholder="np. Środki czystości" />
+          <span className="text-sm text-gray-500 dark:text-gray-400 mb-1 transition-colors">Co to dokładnie jest?</span>
+          <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded p-2 transition-colors focus:ring-2 focus:ring-purple-500 outline-none" placeholder="np. Środki czystości" />
         </label>
       )}
 
       <label className="flex flex-col">
-        <span className="text-sm text-gray-500 mb-1">Kto płaci?</span>
-        <select value={person} onChange={(e) => setPerson(e.target.value)} className="border rounded p-2">
+        <span className="text-sm text-gray-500 dark:text-gray-400 mb-1 transition-colors">Kto płaci?</span>
+        <select value={person} onChange={(e) => setPerson(e.target.value)} className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded p-2 transition-colors focus:ring-2 focus:ring-purple-500 outline-none">
           <option value="Wszyscy">Wszyscy (podział na 3)</option>
           <option value="Ania O.">Ania O.</option>
           <option value="Ania P.">Ania P.</option>
@@ -96,8 +88,8 @@ export default function AddExpenseView() {
       </label>
 
       <label className="flex flex-col">
-        <span className="text-sm text-gray-500 mb-1">Miesiąc rozliczeniowy</span>
-        <select value={month} onChange={(e) => setMonth(e.target.value)} className="border rounded p-2">
+        <span className="text-sm text-gray-500 dark:text-gray-400 mb-1 transition-colors">Miesiąc rozliczeniowy</span>
+        <select value={month} onChange={(e) => setMonth(e.target.value)} className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded p-2 transition-colors focus:ring-2 focus:ring-purple-500 outline-none">
           {months.map(m => <option key={m} value={m}>{m}</option>)}
         </select>
       </label>
@@ -105,7 +97,7 @@ export default function AddExpenseView() {
       <button 
         onClick={handleSave} 
         disabled={isSaving}
-        className="mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg transition-colors"
+        className="mt-4 bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white font-bold py-3 rounded-lg transition-colors"
       >
         {isSaving ? 'Zapisywanie...' : 'Zapisz rachunek'}
       </button>
