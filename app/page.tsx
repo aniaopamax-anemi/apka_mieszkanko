@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 import AddExpenseView from './AddExpenseView';
 import PersonView from './PersonView';
 import SummaryView from './SummaryView';
+import { Tytul, Komunikat, Zwykly, Naglowek } from './style';
+
 
 export default function App() {
   // useState to nasza pamięć. Aplikacja pamięta tutaj, która zakładka jest aktualnie włączona.
@@ -26,7 +28,7 @@ export default function App() {
     // Główny kontener aplikacji (szare tło, ładna czcionka)
     <div className="min-h-screen bg-gray-100 text-gray-800 font-sans p-4">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-bold text-center mb-6 text-purple-600">Mieszkanko 🏠</h1>
+        {Tytul("Mieszkanko")}
         
         {/* Pasek nawigacji (Menu) */}
         <div className="flex flex-wrap gap-2 justify-center mb-8">
