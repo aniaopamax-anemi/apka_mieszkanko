@@ -1,6 +1,6 @@
 const TextStyles = {
-  tytul: "text-2xl font-bold text-blue-600 mb-4",
-  naglowek: "text-lg font-semibold text-gray-800 mb-2",
+  tytul: "text-2xl font-bold text-pink-600 mb-4 text-center",
+  naglowek: "text-lg font-semibold text-gray-800 mb-2 text-center",
   zwykly: "text-base text-gray-500",
   sukces: "text-green-600 font-medium italic",
   blad: "text-red-500 font-bold"
